@@ -19,6 +19,7 @@ artifacts/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+[Dd]atabase/
 
 # Coverlet Code Coverage Tool
 coverage*[.json, .xml, .info]
