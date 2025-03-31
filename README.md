@@ -49,3 +49,85 @@ The application can be configured using the `appsettings.json` file. The followi
 
 - `MaxBoardSize`: The maximum size of the board.
 - `MaxAttempts`: The maximum number of attempts to reach a final state.
+
+## Endpoints
+
+### Upload a New Board State
+
+**POST** `/api/game/upload`
+
+Uploads a new board state and returns the ID of the board.
+
+**Request Body:**
+
+```json
+{
+  "boardState": [
+    [false, true, false],
+    [false, true, false],
+    [false, true, false]
+  ]
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": "guid"
+}
+```
+
+### Get Next State for Board
+
+**GET** `/api/game/{id}/next`
+
+Retrieves the next state for the board.
+
+**Response:**
+
+```json
+{
+  "boardState": [
+    [false, false, false],
+    [true, true, true],
+    [false, false, false]
+  ]
+}
+```
+
+### Get State After X Generations
+
+**GET** `/api/game/{id}/next/{generations}`
+
+Retrieves the state of the board after a specified number of generations.
+
+**Response:**
+
+```json
+{
+  "boardState": [
+    [false, false, false],
+    [true, true, true],
+    [false, false, false]
+  ]
+}
+```
+
+### Get Final State for Board
+
+**GET** `/api/game/{id}/final`
+
+Retrieves the final state of the board. If the board doesn't reach a conclusion after a specified number of attempts, returns [422 Unprocessable Content](https://developer.mozilla.org/docs/Web/HTTP/Reference/Status/422) status code.
+
+**Response:**
+
+```json
+{
+  "boardState": [
+    [false, false, false],
+    [true, true, true],
+    [false, false, false]
+  ]
+}
+```
