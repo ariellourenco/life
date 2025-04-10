@@ -9,20 +9,27 @@ internal sealed class BoolArray2DConverter : JsonConverter<bool[,]>
             throw new JsonException("Expected StartArray token");
 
         using var document = JsonDocument.ParseValue(ref reader);
-        var dim1Length = document.RootElement.GetArrayLength();
-        var dim2Length = document.RootElement.EnumerateArray().First().GetArrayLength();
+        var dimention2D = document.RootElement.EnumerateArray().FirstOrDefault();
 
-        bool[,] grid = new bool[dim1Length, dim2Length];
+        int cols = 0;
+        int rows = document.RootElement.GetArrayLength();
+
+        if (dimention2D.ValueKind != JsonValueKind.Undefined)
+            cols = document.RootElement.EnumerateArray().FirstOrDefault().GetArrayLength();
+
+        bool[,] grid = new bool[rows, cols];
 
         int i = 0;
         foreach (var array in document.RootElement.EnumerateArray())
         {
             int j = 0;
+
             foreach (var boolean in array.EnumerateArray())
             {
                 grid[i, j] = boolean.GetBoolean();
                 j++;
             }
+
             i++;
         }
 
