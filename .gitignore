@@ -19,7 +19,6 @@ artifacts/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-[Dd]atabase/
 
 # Coverlet Code Coverage Tool
 coverage*[.json, .xml, .info]
@@ -29,6 +28,7 @@ coverage*[.json, .xml, .info]
 *.mdf
 *.ldf
 *.ndf
+*.db
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
