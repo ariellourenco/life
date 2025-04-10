@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.Api", "src\Life.Api\Life.Api.csproj", "{17DABC76-48B0-4ADA-80B9-C12DD85BEB1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.Tests", "tests\Life.Tests\Life.Tests.csproj", "{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.UnitTests", "tests\Life.UnitTests\Life.UnitTests.csproj", "{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

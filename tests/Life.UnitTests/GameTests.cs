@@ -1,4 +1,4 @@
-namespace Life.Tests;
+namespace Life.UnitTests;
 
 public class GameTests
 {
