@@ -1,4 +1,4 @@
-﻿namespace Life.Domain;
+﻿namespace Life.Api.Domain;
 
 /// <summary>
 /// Represents a cell in the Conway's Game of Life.

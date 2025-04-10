@@ -17,13 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Life.Domain/Life.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Life.Api" />
     <Using Include="Life.Api.Data" />
-    <Using Include="Life.Domain" />
+    <Using Include="Life.Api.Domain" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Life.Domain;
+namespace Life.Api.Domain;
 
 /// <summary>
 /// Represents the Game of Life, managing the board and its state transitions.
@@ -8,10 +8,6 @@ public sealed class Game
     private readonly Board _board;
 
     private bool[,]? _previousState;
-
-    // This constructor is private, since it is only ever called by EF Core,
-    // and there is another public constructor for general use.
-    // private Game() { }
 
     /// <summary>
     /// Gets the unique identifier of the game.

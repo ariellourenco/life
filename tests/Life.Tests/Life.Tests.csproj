@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/Life.Domain/Life.Domain.csproj" />
+    <ProjectReference Include="../../src/Life.Api/Life.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Life.Api.Domain" />
   </ItemGroup>
 </Project>

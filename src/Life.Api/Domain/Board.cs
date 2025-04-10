@@ -1,4 +1,4 @@
-namespace Life.Domain;
+namespace Life.Api.Domain;
 
 /// <summary>
 /// Represents a board of <see cref="Cell"/>s in the Conway's Game of Life.
@@ -61,6 +61,10 @@ internal sealed class Board
         }
     }
 
+    /// <summary>
+    /// Updates the game board to the next generation based on its current state
+    /// by applying the rules of Conway's Game of Life.
+    /// </summary>
     public void Update()
     {
         var board = new Cell[_rows, _columns];
