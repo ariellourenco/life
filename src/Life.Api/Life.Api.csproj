@@ -16,4 +16,8 @@
     <Using Include="Life.Api.Domain" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Life.IntegrationTests" />
+  </ItemGroup>
+
 </Project>

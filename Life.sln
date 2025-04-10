@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.Api", "src\Life.Api\Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.UnitTests", "tests\Life.UnitTests\Life.UnitTests.csproj", "{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Life.IntegrationTests", "tests\Life.IntegrationTests\Life.IntegrationTests.csproj", "{2396D000-72B2-4158-89CC-5AE1204DE502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2396D000-72B2-4158-89CC-5AE1204DE502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2396D000-72B2-4158-89CC-5AE1204DE502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2396D000-72B2-4158-89CC-5AE1204DE502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2396D000-72B2-4158-89CC-5AE1204DE502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{17DABC76-48B0-4ADA-80B9-C12DD85BEB1B} = {A306F15C-8EEA-41EB-B345-F06F191C21C5}
 		{011CF3B2-A2AE-4E9E-89E0-B8E2CB4F28AE} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{2396D000-72B2-4158-89CC-5AE1204DE502} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal

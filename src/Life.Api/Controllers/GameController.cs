@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 namespace Life.Api.Controllers;
 
 [ApiController]
-[Route("[api/controller]")]
+[Route("api/[controller]")]
 public sealed class GameController : ControllerBase
 {
     private readonly GameDbContext _context;
