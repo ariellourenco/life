@@ -52,6 +52,8 @@ The application can be configured using the `appsettings.json` file. The followi
 
 ## Endpoints
 
+Down below there are a list of request samples that can be used to test the Game of Life api. Moreover, we provide an [.http](src/Life.Api/game.http) file as a convenient way to the this API.
+
 ### Upload a New Board State
 
 **POST** `/api/game/upload`

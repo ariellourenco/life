@@ -1,0 +1,21 @@
+@host = https://localhost:5015
+
+### Upload a new Game of Life board.
+# @name upload
+POST {{host}}/api/game/upload
+Content-Type: application/json
+
+[
+  [true, false, false],
+  [false, true, false],
+  [false, false, true]
+]
+
+### Get the next state of the board
+GET {{host}}/api/game/{{upload.response.body.$}}/next
+
+### Get the state of the board after a specified number of generations
+GET {{host}}/api/game/{{upload.response.body.$}}/next/5
+
+### Get the final state of the board
+GET {{host}}/api/game/{{upload.response.body.$}}/final
