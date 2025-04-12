@@ -17,6 +17,13 @@ builder.Services.Configure<GameSettings>(builder.Configuration.GetSection("GameS
 
 var app = builder.Build();
 
+// Adds the exception handling middleware in non-Development environments.
+// This middleware should be added early in the pipeline to catch exceptions from all other middleware.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseApiExceptionHandler();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
