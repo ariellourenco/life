@@ -13,7 +13,7 @@ The implementation makes a few assumptions:
 
 ## Features
 
-- Upload a new board state.
+- Start a new [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) with the provided board state.
 - Advance the board to the next generation.
 - Retrieve the state of the board after a specified number of generations.
 - Retrieve the final state of the board.
@@ -56,9 +56,9 @@ Down below there are a list of request samples that can be used to test the Game
 
 ### Upload a New Board State
 
-**POST** `/api/game/upload`
+**POST** `/api/game/start`
 
-Uploads a new board state and returns the ID of the board.
+Start a new [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) with the provided board state and returns the ID of the game.
 
 **Request Body:**
 
