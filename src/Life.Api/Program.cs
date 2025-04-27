@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,13 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new BoolArray2DConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
+
+// Configure minimal API JSON options
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new BoolArray2DConverter());
+    options.SerializerOptions.PropertyNamingPolicy = null;
+});
 
 // Load GameSettings from appsettings.json
 builder.Services.Configure<GameSettings>(builder.Configuration.GetSection("GameSettings"));
@@ -31,5 +40,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Map("/", () => Results.Redirect("/swagger"));
+app.MapGameEndpoints();
 
 app.Run();

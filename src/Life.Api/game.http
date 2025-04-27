@@ -1,5 +1,16 @@
 @host = https://localhost:5015
 
+### Starts a new Conway's Game of Life with the provided initial board state.
+# @name board
+POST {{host}}/game/start
+Content-Type: application/json
+
+[
+  [true, false, false],
+  [false, true, false],
+  [false, false, true]
+]
+
 ### Upload a new Game of Life board.
 # @name upload
 POST {{host}}/api/game/upload
