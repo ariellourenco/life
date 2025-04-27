@@ -2,18 +2,7 @@
 
 ### Starts a new Conway's Game of Life with the provided initial board state.
 # @name board
-POST {{host}}/game/start
-Content-Type: application/json
-
-[
-  [true, false, false],
-  [false, true, false],
-  [false, false, true]
-]
-
-### Upload a new Game of Life board.
-# @name upload
-POST {{host}}/api/game/upload
+POST {{host}}/api/game/start
 Content-Type: application/json
 
 [
@@ -23,10 +12,10 @@ Content-Type: application/json
 ]
 
 ### Get the next state of the board
-GET {{host}}/api/game/{{upload.response.body.$}}/next
+GET {{host}}/api/game/{{board.response.body.$}}/next
 
 ### Get the state of the board after a specified number of generations
-GET {{host}}/api/game/{{upload.response.body.$}}/next/5
+GET {{host}}/api/game/{{board.response.body.$}}/next/5
 
 ### Get the final state of the board
-GET {{host}}/api/game/{{upload.response.body.$}}/final
+GET {{host}}/api/game/{{board.response.body.$}}/final

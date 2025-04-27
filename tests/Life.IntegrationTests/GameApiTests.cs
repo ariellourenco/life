@@ -14,7 +14,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
     }
 
     [Fact]
-    public async Task CanUploadGameOfLifeBoard()
+    public async Task CanStartGameOfLife()
     {
         // Arrange
         var rows = 5;
@@ -23,7 +23,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         using var context = _fixture.CreateDbContext();
 
         // Act
-        var response = await _client.PostAsJsonAsync("upload", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
 
         response.EnsureSuccessStatusCode();
 
@@ -42,7 +42,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("upload", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -57,7 +57,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("upload", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -72,7 +72,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("upload", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);

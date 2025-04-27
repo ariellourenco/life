@@ -7,12 +7,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSqlite<GameDbContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new BoolArray2DConverter());
-        options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    });
 
 // Configure minimal API JSON options
 builder.Services.Configure<JsonOptions>(options =>
@@ -37,9 +31,8 @@ if (!app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
-app.MapControllers();
 
-app.Map("/", () => Results.Redirect("/swagger"));
 app.MapGameEndpoints();
+app.Map("/", () => Results.Redirect("/swagger"));
 
 app.Run();
