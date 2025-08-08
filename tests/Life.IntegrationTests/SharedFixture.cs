@@ -40,7 +40,7 @@ public sealed class SharedFixture : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            // We are using DbContextFactory for testting, therefore we need to replace the configuration
+            // We are using DbContextFactory for testing, therefore, we need to replace the configuration
             // for the DbContext to use a different configured database.
             services.AddDbContextFactory<GameDbContext>();
             services.AddDbContextOptions<GameDbContext>(options => options

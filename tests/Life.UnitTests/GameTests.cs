@@ -21,7 +21,7 @@ public class GameTests
     public void NextGeneration_AdvancesToNextGeneration()
     {
         // Arrange
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             { false, true, false },
             { false, true, false },
@@ -35,7 +35,7 @@ public class GameTests
         var newState = game.RawBoard;
 
         // Assert
-        var expectedState = new bool[,]
+        var expectedState = new[,]
         {
             { false, true, false },
             { false, true, false },
@@ -69,7 +69,7 @@ public class GameTests
     public void IsFinalState_ReturnsFalseWhenStateIsNotStable()
     {
         // Arrange
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             { true, true, false },
             { false, true, false },

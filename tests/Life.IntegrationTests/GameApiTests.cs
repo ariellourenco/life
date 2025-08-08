@@ -20,7 +20,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var rows = 5;
         var columns = 5;
         var board = new bool[rows, columns];
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
 
         // Act
         var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
@@ -84,7 +84,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         // Arrange
         var id = Guid.NewGuid();
 
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             { false, true, false },
             { false, true, false },
@@ -93,14 +93,14 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
 
         // The next state of the board remains the same because each live cell has exactly
         // two live neighbors, and no dead cell has exactly three live neighbors.
-        var expectedState = new bool[,]
+        var expectedState = new[,]
         {
             { false, true, false },
             { false, true, false },
             { false, true, false }
         };
 
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
         await context.SaveChangesAsync();
@@ -119,7 +119,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
     {
         // Arrange
         var id = Guid.NewGuid();
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
 
         // Act
         var response = await _client.GetAsync($"{id}/next");
@@ -135,21 +135,21 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var id = Guid.NewGuid();
         var generation = 5;
 
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             { true, false, false },
             { false, true, false },
             { false, false, true }
         };
 
-        var expectedState = new bool[,]
+        var expectedState = new[,]
         {
             { false, false, false },
             { false, false, false },
             { false, false, false }
         };
 
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
         await context.SaveChangesAsync();
@@ -169,21 +169,21 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         // Arrange
         var id = Guid.NewGuid();
 
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             { true, false, false },
             { false, true, false },
             { false, false, true }
         };
 
-        var expectedState = new bool[,]
+        var expectedState = new[,]
         {
             { false, false, false },
             { false, false, false },
             { false, false, false }
         };
 
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
         await context.SaveChangesAsync();
@@ -197,13 +197,13 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         Assert.Equal(expectedState, result);
     }
 
-        [Fact]
+    [Fact]
     public async Task ShouldReturn422UnprocessableEntity_WhenBoardCannotReachStability()
     {
         // Arrange
         var id = Guid.NewGuid();
 
-        var initialState = new bool[,]
+        var initialState = new[,]
         {
             {true, false, true, false, true},
             {false, true, false, true, false},
@@ -212,7 +212,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
             {true, false, true, false, true}
         };
 
-        using var context = _fixture.CreateDbContext();
+        await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
         await context.SaveChangesAsync();

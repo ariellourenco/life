@@ -13,7 +13,7 @@ internal sealed class Board
     /// Initializes a new instance of the <see cref="Board"/> class.
     /// </summary>
     /// <param name="rows">The number of rows of the <see cref="Board"/>.</param>
-    /// <param name="columns">The number of colunmns of the <see cref="Board"/>.</param>
+    /// <param name="columns">The number of columns of the <see cref="Board"/>.</param>
     public Board(int rows, int columns)
     {
         _rows = rows;
@@ -46,18 +46,18 @@ internal sealed class Board
     /// <param name="x">The x-coordinate of the <see cref="Cell"/>.</param>
     /// <param name="y">The y-coordinate of the <see cref="Cell"/>.</param>
     /// <param name="isAlive">The state to set for the <see cref="Cell"/>. (<see langword="true"/>for alive, <see langword="false"/> for dead).</param>
-    public void SetCellState(int x, int y, bool isAlive)
+    private void SetCellState(int x, int y, bool isAlive)
     {
-        if (IsValidPosition(y, x))
+        if (!IsValidPosition(y, x))
+            return;
+
+        if (_board[y, x] == null)
         {
-            if (_board[y, x] == null)
-            {
-                _board[y, x] = new Cell(isAlive);
-            }
-            else
-            {
-                _board[y, x].SetState(isAlive);
-            }
+            _board[y, x] = new Cell(isAlive);
+        }
+        else
+        {
+            _board[y, x].SetState(isAlive);
         }
     }
 
@@ -136,7 +136,7 @@ internal sealed class Board
 
     private void UpdateInternalBoard(Cell[,] board)
     {
-        // Replace old grid with the new grid
+        // Replace the old grid with the new grid
         for (var y = 0; y < _rows; y++)
         {
             for (var x = 0; x < _columns; x++)

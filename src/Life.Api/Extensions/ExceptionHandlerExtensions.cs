@@ -12,7 +12,7 @@ internal static class ExceptionHandlerExtensions
 {
 
     /// <summary>
-    /// Adds a middleware to the pipeline that will catch exceptions, log them, and returns .
+    /// Adds the exception middleware to the pipeline for catch exceptions, log them, and returns.
     /// </summary>
     /// <param name="builder">The <see cref="IApplicationBuilder"/>.</param>
     /// <returns>The provided <see cref="IApplicationBuilder"/> to chain configuration.</returns>
@@ -38,10 +38,12 @@ internal static class ExceptionHandlerExtensions
             Status = (int)HttpStatusCode.InternalServerError,
             Detail = exception.Message,
             Instance = context.Request.Path,
-            Type = exception.GetType().Name
+            Type = exception.GetType().Name,
+            Extensions =
+            {
+                ["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier
+            }
         };
-
-        details.Extensions["traceId"] = context.TraceIdentifier ?? Activity.Current?.Id;
 
         await context.Response.WriteAsJsonAsync(details, cancellationToken: context.RequestAborted);
     }

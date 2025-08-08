@@ -25,9 +25,9 @@ internal static class DbContextExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
         ArgumentNullException.ThrowIfNull(configure, nameof(configure));
 
-        // Remove any existing DbContextOptions<TContext> registrated.
-        // We want to override the settings and calling the AddDbContext<TContext> method will noop.
-        services.RemoveAll(typeof(DbContextOptions<TContext>));
+        // Remove any existing DbContextOptions<TContext> registered.
+        // We want to override the settings, and calling the AddDbContext<TContext> method will noop.
+        services.RemoveAll<DbContextOptions<TContext>>();
 
         // Add the DbContextOptions<TContext>
         var builder = new DbContextOptionsBuilder<TContext>();

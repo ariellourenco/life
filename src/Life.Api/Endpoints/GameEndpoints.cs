@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Life.Api.Endpoints;
 
-internal static class GameEnpoints
+internal static class GameEndpoints
 {
     public static IEndpointRouteBuilder MapGameEndpoints(this IEndpointRouteBuilder routes)
     {
@@ -29,9 +29,11 @@ internal static class GameEnpoints
         group.MapGet("{id:guid}/final", GetFinalStateAsync)
             .WithName("GetFinalState")
             .WithSummary("Gets the final state of the board")
-            .WithDescription(@"Gets the final state of the board for the specified ID.
-            The final state is reached when there is no change over time, such as a ""block"" or a ""beehive."". If
-            The maximum number of attempts is reached without reaching a final state an error message is returned.");
+            .WithDescription("""
+                Gets the final state of the board for the specified ID.
+                The final state is reached when there is no change over time, such as a "block" or a "beehive". If
+                The maximum number of attempts is reached without reaching a final state an error message is returned.
+            """);
 
         return group;
     }
@@ -49,9 +51,9 @@ internal static class GameEnpoints
 
         if (rows == 0 || rows > options.Value.MaxBoardSize || columns == 0 || columns > options.Value.MaxBoardSize)
         {
-            return TypedResults.BadRequest<ProblemDetails>(new()
+            return TypedResults.BadRequest(new ProblemDetails
             {
-                Detail = $@"Invalid board state. The board must have at least one cell and at most {100}x{100} cells."
+                Detail = $"Invalid board state. The board must have at least one cell and at most {100}x{100} cells."
             });
         }
 
@@ -127,7 +129,7 @@ internal static class GameEnpoints
 
         return TypedResults.UnprocessableEntity(new ProblemDetails
         {
-            Detail = $@"The maximum number of attempts ({options.Value.MaxNumberOfAttempts}) was reached without reaching a final state."
+            Detail = $"The maximum number of attempts ({options.Value.MaxNumberOfAttempts}) was reached without reaching a final state."
         });
     }
 }
