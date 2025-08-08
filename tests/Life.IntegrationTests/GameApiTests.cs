@@ -23,11 +23,13 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
 
         // Act
-        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board,
+            SharedFixture.JsonOptions,
+            TestContext.Current.CancellationToken);
 
         response.EnsureSuccessStatusCode();
 
-        var id = await response.Content.ReadFromJsonAsync<Guid>();
+        var id = await response.Content.ReadFromJsonAsync<Guid>(TestContext.Current.CancellationToken);
 
         // Assert
         Assert.NotEqual(Guid.Empty, id);
@@ -42,7 +44,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board,
+            SharedFixture.JsonOptions,
+            TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -57,7 +61,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board,
+            SharedFixture.JsonOptions,
+            TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -72,7 +78,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         var board = new bool[rows, columns];
 
         // Act
-        var response = await _client.PostAsJsonAsync("start", board, SharedFixture.JsonOptions);
+        var response = await _client.PostAsJsonAsync("start", board,
+            SharedFixture.JsonOptions,
+            TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -103,14 +111,14 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var response = await _client.GetAsync($"{id}/next");
+        var response = await _client.GetAsync($"{id}/next", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions);
+        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions, TestContext.Current.CancellationToken);
         Assert.Equal(expectedState, result);
     }
 
@@ -122,7 +130,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
 
         // Act
-        var response = await _client.GetAsync($"{id}/next");
+        var response = await _client.GetAsync($"{id}/next", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -152,14 +160,14 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var response = await _client.GetAsync($"{id}/next/{generation}");
+        var response = await _client.GetAsync($"{id}/next/{generation}", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions);
+        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions, TestContext.Current.CancellationToken);
         Assert.Equal(expectedState, result);
     }
 
@@ -186,14 +194,14 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var response = await _client.GetAsync($"{id}/final");
+        var response = await _client.GetAsync($"{id}/final", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions);
+        var result = await response.Content.ReadFromJsonAsync<bool[,]>(SharedFixture.JsonOptions, TestContext.Current.CancellationToken);
         Assert.Equal(expectedState, result);
     }
 
@@ -215,10 +223,10 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         await using var context = _fixture.CreateDbContext();
         context.Games.Add(new Game(id, initialState));
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var response = await _client.GetAsync($"{id}/final");
+        var response = await _client.GetAsync($"{id}/final", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
