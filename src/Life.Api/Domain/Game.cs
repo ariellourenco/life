@@ -15,6 +15,11 @@ public sealed class Game
     public Guid Id { get; private set; }
 
     /// <summary>
+    /// Gets the identifier of the owner of the game.
+    /// </summary>
+    public int PlayerId { get; private set; }
+
+    /// <summary>
     /// Gets the current state of the game board.
     /// </summary>
     public bool[,] RawBoard { get; private set; }
@@ -23,10 +28,12 @@ public sealed class Game
     /// Initializes a new instance of the <see cref="Game"/> class.
     /// </summary>
     /// <param name="id">The unique identifier of the game.</param>
+    /// <param name="playerId">The identifier of the owner of the game.</param>
     /// <param name="rawBoard">The initial state of the board.</param>
-    public Game(Guid id, bool[,] rawBoard)
+    public Game(Guid id, int playerId, bool[,] rawBoard)
     {
         Id = id;
+        PlayerId = playerId;
         RawBoard = rawBoard;
         _board = new Board(rawBoard);
     }

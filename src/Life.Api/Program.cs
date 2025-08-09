@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure Identity framework
+builder.Services.AddIdentityCore<Gamer>()
+    .AddEntityFrameworkStores<GameDbContext>();
+
 builder.Services.AddSqlite<GameDbContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 // Configure minimal API JSON options

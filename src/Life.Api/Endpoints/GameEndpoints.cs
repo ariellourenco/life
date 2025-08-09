@@ -57,7 +57,7 @@ internal static class GameEndpoints
             });
         }
 
-        var game = new Game(Guid.NewGuid(), board);
+        var game = new Game(Guid.NewGuid(), 1, board);
 
         context.Games.Add(game);
         await context.SaveChangesAsync(cancellationToken);
