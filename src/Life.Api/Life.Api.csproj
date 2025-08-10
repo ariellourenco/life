@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Using Include="Life.Api" />
+    <Using Include="Life.Api.Authorization" />
     <Using Include="Life.Api.Data" />
     <Using Include="Life.Api.Domain" />
     <Using Include="Life.Api.Endpoints" />

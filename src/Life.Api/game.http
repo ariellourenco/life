@@ -1,9 +1,39 @@
 @host = https://localhost:5015
+@username = tester@supergamer.com
+@password = securePassword123!
+
+### Register a new gamer
+POST {{host}}/api/account/register
+Content-Type: application/json
+
+{
+  "email": "{{username}}",
+  "password": "{{password}}"
+}
+
+### Retrieving an access token
+# @name login
+POST {{host}}/api/account/login
+Content-Type: application/json
+
+{
+  "email": "{{username}}",
+  "password": "{{password}}"
+}
+
+### Generate a refresh token
+POST {{host}}/api/account/refresh
+Content-Type: application/json
+
+{
+  "RefreshToken": "{{login.response.body.RefreshToken}}"
+}
 
 ### Starts a new Conway's Game of Life with the provided initial board state.
 # @name board
 POST {{host}}/api/game/start
 Content-Type: application/json
+Authorization: Bearer {{login.response.body.AccessToken}}
 
 [
   [true, false, false],
@@ -13,9 +43,12 @@ Content-Type: application/json
 
 ### Get the next state of the board
 GET {{host}}/api/game/{{board.response.body.$}}/next
+Authorization: Bearer {{login.response.body.AccessToken}}
 
 ### Get the state of the board after a specified number of generations
 GET {{host}}/api/game/{{board.response.body.$}}/next/5
+Authorization: Bearer {{login.response.body.AccessToken}}
 
 ### Get the final state of the board
 GET {{host}}/api/game/{{board.response.body.$}}/final
+Authorization: Bearer {{login.response.body.AccessToken}}
