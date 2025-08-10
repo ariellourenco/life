@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace Life.Api.Endpoints;
@@ -9,7 +10,9 @@ internal static class GameEndpoints
 {
     public static IEndpointRouteBuilder MapGameEndpoints(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/game").WithTags("Game");
+        var group = routes.MapGroup("/api/game")
+            .RequireAuthorization()
+            .WithTags("Game");
 
         group.MapPost("/start", StartGameAsync)
             .WithName("Start")
@@ -42,6 +45,7 @@ internal static class GameEndpoints
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     private static async Task<Results<Ok<Guid>, BadRequest<ProblemDetails>>> StartGameAsync(
         [FromServices] GameDbContext context,
+        [FromServices] CurrentUser currentUser,
         [FromServices] IOptions<GameSettings> options,
         [Description("The initial state of Conway's Game of Life board.")] bool[,] board,
         CancellationToken cancellationToken)
@@ -57,7 +61,7 @@ internal static class GameEndpoints
             });
         }
 
-        var game = new Game(Guid.NewGuid(), 1, board);
+        var game = new Game(Guid.NewGuid(), currentUser.Id, board);
 
         context.Games.Add(game);
         await context.SaveChangesAsync(cancellationToken);
@@ -69,30 +73,29 @@ internal static class GameEndpoints
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     private static async ValueTask<Results<Ok<bool[,]>, NotFound>> GetNextGenerationAsync(
         [FromServices] GameDbContext context,
+        [FromServices] CurrentUser currentUser,
         [Description("The game identifier")] Guid id,
         CancellationToken cancellationToken) =>
-        await GetGenerationAsync(context, id, 1, cancellationToken);
+        await GetGenerationAsync(context, currentUser, id, 1, cancellationToken);
 
 
     [ProducesResponseType<bool[,]>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     private static async ValueTask<Results<Ok<bool[,]>, NotFound>> GetGenerationAsync(
         [FromServices] GameDbContext context,
+        [FromServices] CurrentUser currentUser,
         [Description("The game identifier")] Guid id,
         [Description("The generation to retrieves information from")] int generation,
         CancellationToken cancellationToken)
     {
-        var game = await context.Games.FindAsync([id], cancellationToken);
+        var game = await context.Games.FirstOrDefaultAsync(game =>
+            game.Id == id && game.PlayerId == currentUser.Id, cancellationToken);
 
         if (game is null)
-        {
             return TypedResults.NotFound();
-        }
 
         for (var i = 0; i < generation; i++)
-        {
             game.NextGeneration();
-        }
 
         context.Games.Update(game);
         await context.SaveChangesAsync(cancellationToken);
@@ -105,11 +108,13 @@ internal static class GameEndpoints
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status422UnprocessableEntity, "application/problem+json")]
     private static async ValueTask<Results<Ok<bool[,]>, NotFound, UnprocessableEntity<ProblemDetails>>> GetFinalStateAsync(
         [FromServices] GameDbContext context,
+        [FromServices] CurrentUser currentUser,
         [FromServices] IOptions<GameSettings> options,
         [Description("The game identifier")] Guid id,
         CancellationToken cancellationToken)
     {
-        var game = await context.Games.FindAsync([id], cancellationToken);
+        var game = await context.Games
+            .FirstOrDefaultAsync(game => game.Id == id && game.PlayerId == currentUser.Id, cancellationToken);
 
         if (game is null)
             return TypedResults.NotFound();

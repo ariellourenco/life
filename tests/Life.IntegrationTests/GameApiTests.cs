@@ -2,14 +2,16 @@ namespace Life.IntegrationTests;
 
 public sealed class GameApiTests : IClassFixture<SharedFixture>
 {
+    private const int PlayerId = 27;
+    private const string Username = "harakiri@ign.com";
+
     private readonly HttpClient _client;
 
     private readonly SharedFixture _fixture;
 
     public GameApiTests(SharedFixture fixture)
     {
-        _client = fixture.CreateClient();
-        _client.BaseAddress = new Uri("/api/game/");
+        _client = fixture.CreateClient(PlayerId, Username);
         _fixture = fixture;
     }
 
@@ -17,10 +19,10 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
     public async Task CanStartGameOfLife()
     {
         // Arrange
-        var rows = 5;
-        var columns = 5;
-        var board = new bool[rows, columns];
+        var board = new bool[5, 5];
+
         await using var context = _fixture.CreateDbContext();
+        await _fixture.CreateUserAsync(PlayerId, Username);
 
         // Act
         var response = await _client.PostAsJsonAsync("start", board,
@@ -73,9 +75,7 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
     public async Task Upload_ReturnsBadRequest_WhenBoardIsEmpty()
     {
         // Arrange
-        var rows = 0;
-        var columns = 0;
-        var board = new bool[rows, columns];
+        var board = new bool[0, 0];
 
         // Act
         var response = await _client.PostAsJsonAsync("start", board,
@@ -109,7 +109,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         };
 
         await using var context = _fixture.CreateDbContext();
-        context.Games.Add(new Game(id, initialState));
+        await _fixture.CreateUserAsync(PlayerId, Username);
+
+        context.Games.Add(new Game(id, PlayerId, initialState));
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
@@ -158,7 +160,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         };
 
         await using var context = _fixture.CreateDbContext();
-        context.Games.Add(new Game(id, initialState));
+        await _fixture.CreateUserAsync(PlayerId, Username);
+
+        context.Games.Add(new Game(id, PlayerId, initialState));
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
@@ -192,7 +196,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         };
 
         await using var context = _fixture.CreateDbContext();
-        context.Games.Add(new Game(id, initialState));
+        await _fixture.CreateUserAsync(PlayerId, Username);
+
+        context.Games.Add(new Game(id, PlayerId, initialState));
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
@@ -221,7 +227,9 @@ public sealed class GameApiTests : IClassFixture<SharedFixture>
         };
 
         await using var context = _fixture.CreateDbContext();
-        context.Games.Add(new Game(id, initialState));
+        await _fixture.CreateUserAsync(PlayerId, Username);
+
+        context.Games.Add(new Game(id, PlayerId, initialState));
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 

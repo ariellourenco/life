@@ -1,7 +1,9 @@
 namespace Life.UnitTests;
 
-public class GameTests
+public sealed class GameTests
 {
+    private const int PlayerId = 27;
+
     [Fact]
     public void Constructor_InitializesGameWithCorrectIdAndBoard()
     {
@@ -10,7 +12,7 @@ public class GameTests
         var boardState = new bool[5, 5];
 
         // Act
-        var game = new Game(id, boardState);
+        var game = new Game(id, PlayerId, boardState);
 
         // Assert
         Assert.Equal(id, game.Id);
@@ -28,7 +30,7 @@ public class GameTests
             { false, true, false }
         };
 
-        var game = new Game(Guid.NewGuid(), initialState);
+        var game = new Game(Guid.NewGuid(), PlayerId, initialState);
 
         // Act
         game.NextGeneration();
@@ -55,7 +57,7 @@ public class GameTests
             { true, true, true },
             { false, false, false }
         };
-        var game = new Game(Guid.NewGuid(), initialState);
+        var game = new Game(Guid.NewGuid(), PlayerId, initialState);
 
         // Act
         game.NextGeneration();
@@ -75,7 +77,7 @@ public class GameTests
             { false, true, false },
             { false, true, false }
         };
-        var game = new Game(Guid.NewGuid(), initialState);
+        var game = new Game(Guid.NewGuid(), PlayerId, initialState);
 
         // Act
         game.NextGeneration();

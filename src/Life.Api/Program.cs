@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,9 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure Authentication and Authorization
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddAuthorization();
+builder.Services.AddCurrentUser();
+
 // Configure Identity framework
 builder.Services.AddIdentityCore<Gamer>()
-    .AddEntityFrameworkStores<GameDbContext>();
+    .AddEntityFrameworkStores<GameDbContext>()
+    .AddApiEndpoints();
 
 builder.Services.AddSqlite<GameDbContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
@@ -35,8 +42,11 @@ if (!app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
+app.MapAccountEndpoints();
 app.MapGameEndpoints();
+
 app.Map("/", () => Results.Redirect("/swagger"));
 
 app.Run();
